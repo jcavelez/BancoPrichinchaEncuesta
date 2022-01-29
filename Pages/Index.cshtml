@@ -1,0 +1,53 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Encuesta Banco Pichincha";
+}
+
+
+
+<div class="container">
+    <h1 class="title">¡NOS ENCANTÓ LEERTE!</h1>
+    <p class="intro" id="lblIntro">Porque se trata de brindarte siempre el mejor servicio, queremos conocer tu opinión sobre la experiencia recibida al utilizar nuestro WhatsApp el día  {{fecha}}. Por ello, te invitamos a que nos ayudes a completar esta breve encuesta.</p>
+    @{int cont = 0;}
+    @foreach (var q in Model.Questions)
+    {
+        cont++;
+        <p class="pregunta">@cont. @q.Text</p>
+        <p class="intro">@q.Intro</p>
+
+        @if (q.Type == "open")
+        {
+            <div class="pregunta2">
+                <textarea class="pregunta-respuestaTexto" id="inputPregunta'@q.Id" onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+            </div>
+        }
+
+        @if (q.Type == "close")
+        {
+            <div class="radios">
+                @foreach (var r in q.Answers)
+                {
+                    <div class="radios-option">
+                        <input type="radio" id="Calificacion'@r.Id" name="Pregunta'@r.Id'" value="@r.Text">
+                    <label for="Calificacion'@r.Id">@r.Text</label>
+                </div>
+                }
+            </div>
+        }
+    
+    }
+    
+    <div class="botones">
+        <button id="btnEnviar" class ="boton" type="submit">Enviar Encuesta</button>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-dialog">
+            <section class="modal-content">
+            <p><strong>Tu opinión nos ayudará a mejorar nuestro servicio por WhatsApp, ¡Muchas Gracias!</strong></p>
+            <p>¡Que tengas un excelente día! 🙂</p>
+            </section>
+        </div>
+        </div>
+</div>
